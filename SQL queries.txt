@@ -1,0 +1,50 @@
+CREATE TABLE teams (
+    teamID INTEGER PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE leagues (
+    leagueID INTEGER PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    underStatNotation VARCHAR(255)
+);
+
+CREATE TABLE games (
+    gameID INTEGER PRIMARY KEY,
+    leagueID INTEGER REFERENCES leagues(leagueID),
+    homeTeamID INTEGER REFERENCES teams(teamID),
+    awayTeamID INTEGER REFERENCES teams(teamID),
+    date DATE,
+    season INTEGER,
+    homeProbability NUMERIC,
+    drawProbability NUMERIC,
+    awayProbability NUMERIC
+);
+
+CREATE TABLE players (
+    playerID INTEGER PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE shots (
+    gameID INTEGER REFERENCES games(gameID),
+    shooterID INTEGER REFERENCES players(playerID),
+    assisterID INTEGER REFERENCES players(playerID),
+    minute INTEGER,
+    situation VARCHAR(50),
+    shotResult VARCHAR(20),
+    shotType VARCHAR(20)
+);
+
+CREATE TABLE teamstats (
+    gameID INTEGER REFERENCES games(gameID),
+    teamID INTEGER REFERENCES teams(teamID),
+    season INTEGER,
+    goals INTEGER,
+    shots INTEGER,
+    shotsOnTarget INTEGER,
+    fouls INTEGER,
+    yellowCards INTEGER,
+    redCards INTEGER,
+    Result VARCHAR(10)
+);
